@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { tangGiamSoLuong, thanhToanAction } from "./../redux/actions/BurgerActions";
+import { resetAction, tangGiamSoLuong, thanhToanAction } from "./../redux/actions/BurgerActions";
 export default function MenuComponent() {
     const { menu, total, burger } = useSelector(state => state.BurgerReducer)
+
+    const [isReset, setIsReset] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -12,6 +14,8 @@ export default function MenuComponent() {
     }
 
     const thanhToan = () => {
+        setIsReset(true)
+
         dispatch(thanhToanAction())
     }
 
@@ -62,6 +66,12 @@ export default function MenuComponent() {
 
     }
 
+
+    const reset = () => {
+        setIsReset(false)
+        dispatch(resetAction())
+    }
+
     return (
         <div className="text-center">
             <h2 className="mb-5">Chọn thức ăn</h2>
@@ -87,6 +97,7 @@ export default function MenuComponent() {
             </table>
 
             <div className="text-right mr-5">
+                {isReset && <button style={{marginRight: "20px"}} className="btn btn-danger" onClick={reset}>RESET</button>}
                 {renderThanhToan()}
                 {/* <button className="btn btn-primary" onClick={thanhToan}>THANH TOÁN</button> */}
             </div>
