@@ -6,16 +6,18 @@ export default function MenuComponent() {
     const { menu, total, burger } = useSelector(state => state.BurgerReducer)
 
     const [isReset, setIsReset] = useState(false)
+    const [isTongTien, setIsTongTien] = useState(true)
 
     const dispatch = useDispatch()
 
     const handleClick = (key, tangGiam) => {
         dispatch(tangGiamSoLuong(key, tangGiam))
+        setIsTongTien(false)
     }
 
     const thanhToan = () => {
         setIsReset(true)
-
+        setIsTongTien(true)
         dispatch(thanhToanAction())
     }
 
@@ -68,6 +70,7 @@ export default function MenuComponent() {
 
 
     const reset = () => {
+        setIsTongTien(true)
         setIsReset(false)
         dispatch(resetAction())
     }
@@ -90,8 +93,8 @@ export default function MenuComponent() {
                 <tfoot>
                     <tr>
                         <th></th>
-                        <th>Tổng tiền</th>
-                        <th>{total}</th>
+                        <th> {isTongTien ? <p>Tổng tiền</p> : <p className="text-muted">Tổng tiền</p>}</th>
+                        <th>{isTongTien ? <p>{total}</p> : <p className="text-muted">{total}</p>}</th>
                     </tr>
                 </tfoot>
             </table>
